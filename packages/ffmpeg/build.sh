@@ -2,12 +2,10 @@ TERMUX_PKG_HOMEPAGE=https://ffmpeg.org
 TERMUX_PKG_DESCRIPTION="Tools and libraries to manipulate a wide range of multimedia formats and protocols"
 TERMUX_PKG_LICENSE="GPL-3.0"
 TERMUX_PKG_MAINTAINER="@termux"
-# Please align version with `ffplay` package.
-TERMUX_PKG_VERSION="6.1.1"
-TERMUX_PKG_REVISION=4
-TERMUX_PKG_SRCURL=https://www.ffmpeg.org/releases/ffmpeg-${TERMUX_PKG_VERSION}.tar.xz
-TERMUX_PKG_SHA256=8684f4b00f94b85461884c3719382f1261f0d9eb3d59640a1f4ac0873616f968
-TERMUX_PKG_DEPENDS="fontconfig, freetype, fribidi, game-music-emu, harfbuzz, libaom, libandroid-glob, libass, libbluray, libbz2, libdav1d, libgnutls, libiconv, liblzma, libmp3lame, libopencore-amr, libopenmpt, libopus, librav1e, libsoxr, libsrt, libssh, libtheora, libv4l, libvo-amrwbenc, libvorbis, libvpx, libvidstab, libwebp, libx264, libx265, libxml2, libzimg, littlecms, ocl-icd, svt-av1, xvidcore, zlib"
+TERMUX_PKG_VERSION="0-experiment"
+TERMUX_PKG_REVISION=1
+TERMUX_PKG_SRCURL=git+https://github.com/xaionaro/FFmpeg
+TERMUX_PKG_DEPENDS="fontconfig, freetype, fribidi, game-music-emu, harfbuzz, libaom, libandroid-glob, libass, libbluray, libbz2, libdav1d, libgnutls, libiconv, liblzma, libmp3lame, libopencore-amr, libopenmpt, libopus, libsoxr, libsrt, libssh, libv4l, libvo-amrwbenc, libvorbis, libvpx, libvidstab, libwebp, libx264, libx265, libxml2, libzimg, littlecms, ocl-icd, svt-av1, xvidcore, zlib, pulseaudio"
 TERMUX_PKG_BUILD_DEPENDS="opencl-headers"
 TERMUX_PKG_CONFLICTS="libav"
 TERMUX_PKG_BREAKS="ffmpeg-dev"
@@ -16,9 +14,9 @@ TERMUX_PKG_REPLACES="ffmpeg-dev"
 termux_step_pre_configure() {
 	# Do not forget to bump revision of reverse dependencies and rebuild them
 	# after SOVERSION is changed. (These variables are also used afterwards.)
-	_FFMPEG_SOVER_avutil=58
-	_FFMPEG_SOVER_avcodec=60
-	_FFMPEG_SOVER_avformat=60
+	_FFMPEG_SOVER_avutil=59
+	_FFMPEG_SOVER_avcodec=61
+	_FFMPEG_SOVER_avformat=61
 
 	local f
 	for f in util codec format; do
@@ -59,8 +57,8 @@ termux_step_configure() {
 		--cxx="$CXX" \
 		--nm="$NM" \
 		--pkg-config="$PKG_CONFIG" \
-		--strip="$STRIP" \
 		--cross-prefix="${TERMUX_HOST_PLATFORM}-" \
+		--disable-stripping \
 		--disable-indevs \
 		--disable-outdevs \
 		--enable-indev=lavfi \
@@ -81,18 +79,21 @@ termux_step_configure() {
 		--enable-libfribidi \
 		--enable-libgme \
 		--enable-libharfbuzz \
+		--enable-libpulse \
 		--enable-libmp3lame \
 		--enable-libopencore-amrnb \
 		--enable-libopencore-amrwb \
 		--enable-libopenmpt \
 		--enable-libopus \
-		--enable-librav1e \
+		--disable-librav1e \
 		--enable-libsoxr \
 		--enable-libsrt \
 		--enable-libssh \
 		--enable-libsvtav1 \
-		--enable-libtheora \
+		--disable-libtheora \
 		--enable-libv4l2 \
+		--enable-indev=v4l2 \
+		--enable-indev=pulse \
 		--enable-libvidstab \
 		--enable-libvo-amrwbenc \
 		--enable-libvorbis \
@@ -109,6 +110,7 @@ termux_step_configure() {
 		--prefix="$TERMUX_PREFIX" \
 		--target-os=android \
 		--extra-libs="-landroid-glob" \
+		--extra-cflags='-Wno-error -ggdb3' \
 		--disable-vulkan \
 		$_EXTRA_CONFIGURE_FLAGS \
 		--disable-libfdk-aac

@@ -216,7 +216,7 @@ lint_package() {
 
 		# Certain fields may be API-specific.
 		# Using API 24 here.
-		TERMUX_PKG_API_LEVEL=24
+		TERMUX_PKG_API_LEVEL=26
 
 		. "$package_script"
 

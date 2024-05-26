@@ -1,12 +1,13 @@
 --- a/configure
 +++ b/configure
-@@ -5336,13 +5336,9 @@
+@@ -5336,13 +5336,10 @@
          striptype=""
          ;;
      android)
 -        disable symver
          enable section_data_rel_ro
          add_cflags -fPIE
++        add_cflags -Wno-incompatible-function-pointer-types
          add_ldexeflags -fPIE -pie
 -        SLIB_INSTALL_NAME='$(SLIBNAME)'
 -        SLIB_INSTALL_LINKS=

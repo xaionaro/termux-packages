@@ -6,15 +6,23 @@ termux_step_setup_toolchain() {
 		# Bump TERMUX_STANDALONE_TOOLCHAIN if a change is made in
 		# toolchain setup to ensure that everyone gets an updated
 		# toolchain
-		if [ "${TERMUX_NDK_VERSION}" = "26b" ]; then
-			TERMUX_STANDALONE_TOOLCHAIN+="-v4"
-			termux_setup_toolchain_26b
-		elif [ "${TERMUX_NDK_VERSION}" = 23c ]; then
-			TERMUX_STANDALONE_TOOLCHAIN+="-v7"
-			termux_setup_toolchain_23c
-		else
-			termux_error_exit "We do not have a setup_toolchain function for NDK version $TERMUX_NDK_VERSION"
-		fi
+		case "${TERMUX_NDK_VERSION}" in
+			26d)
+				TERMUX_STANDALONE_TOOLCHAIN+="-v4"
+				termux_setup_toolchain_26d
+				;;
+			26b)
+				TERMUX_STANDALONE_TOOLCHAIN+="-v4"
+				termux_setup_toolchain_26b
+				;;
+			23c)
+				TERMUX_STANDALONE_TOOLCHAIN+="-v7"
+				termux_setup_toolchain_23c
+				;;
+			*)
+				termux_error_exit "We do not have a setup_toolchain function for NDK version $TERMUX_NDK_VERSION"
+				;;
+		esac
 	elif [ "$TERMUX_PACKAGE_LIBRARY" = "glibc" ]; then
 		if [ "$TERMUX_ON_DEVICE_BUILD" = "true" ]; then
 			TERMUX_STANDALONE_TOOLCHAIN="$TERMUX_PREFIX"
