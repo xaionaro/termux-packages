@@ -95,6 +95,7 @@ termux_step_configure() {
 		--enable-indev=v4l2 \
 		--enable-indev=pulse \
 		--enable-libvidstab \
+		--enable-libvmaf \
 		--enable-libvo-amrwbenc \
 		--enable-libvorbis \
 		--enable-libvpx \
