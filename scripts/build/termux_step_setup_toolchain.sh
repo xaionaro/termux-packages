@@ -7,6 +7,10 @@ termux_step_setup_toolchain() {
 		# toolchain setup to ensure that everyone gets an updated
 		# toolchain
 		case "${TERMUX_NDK_VERSION}" in
+			27)
+				TERMUX_STANDALONE_TOOLCHAIN+="-v0"
+				termux_setup_toolchain_27
+				;;
 			26d)
 				TERMUX_STANDALONE_TOOLCHAIN+="-v4"
 				termux_setup_toolchain_26d
