@@ -8,7 +8,7 @@ termux_step_setup_toolchain() {
 		# toolchain
 		case "${TERMUX_NDK_VERSION}" in
 			27)
-				TERMUX_STANDALONE_TOOLCHAIN+="-v0"
+				TERMUX_STANDALONE_TOOLCHAIN+="-v1"
 				termux_setup_toolchain_27
 				;;
 			26d)
