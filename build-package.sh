@@ -247,6 +247,9 @@ source "$TERMUX_SCRIPTDIR/scripts/build/toolchain/termux_setup_toolchain_26b.sh"
 # shellcheck source=scripts/build/toolchain/termux_setup_toolchain_27.sh
 source "$TERMUX_SCRIPTDIR/scripts/build/toolchain/termux_setup_toolchain_27.sh"
 
+# shellcheck source=scripts/build/toolchain/termux_setup_toolchain_27b.sh
+source "$TERMUX_SCRIPTDIR/scripts/build/toolchain/termux_setup_toolchain_27b.sh"
+
 # Setup a standalone Android NDK 23c toolchain. Called from termux_step_setup_toolchain.
 # shellcheck source=scripts/build/toolchain/termux_setup_toolchain_23c.sh
 source "$TERMUX_SCRIPTDIR/scripts/build/toolchain/termux_setup_toolchain_23c.sh"
