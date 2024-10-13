@@ -58,6 +58,7 @@ termux_step_configure() {
 		--disable-examples \
 		--disable-realtime-only \
 		--disable-unit-tests \
+		--enable-static \
 		--enable-pic \
 		--enable-postproc \
 		--enable-vp8 \
