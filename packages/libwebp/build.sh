@@ -11,6 +11,7 @@ TERMUX_PKG_DEPENDS="giflib, libjpeg-turbo, libpng, libtiff"
 TERMUX_PKG_BREAKS="libwebp-dev"
 TERMUX_PKG_REPLACES="libwebp-dev"
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
+--enable-static
 --enable-libwebpmux
 --enable-libwebpdemux
 --enable-libwebpdecoder

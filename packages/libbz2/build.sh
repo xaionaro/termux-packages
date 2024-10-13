@@ -25,7 +25,7 @@ termux_step_configure() {
 
 termux_step_make() {
 	# bzip2 uses a separate makefile for the shared library
-	make -f Makefile-libbz2_so
+	make -f Makefile
 }
 
 termux_step_make_install() {
