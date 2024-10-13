@@ -7,7 +7,7 @@ TERMUX_PKG_VERSION="7.1.1"
 TERMUX_PKG_REVISION=6
 TERMUX_PKG_SRCURL=https://www.ffmpeg.org/releases/ffmpeg-${TERMUX_PKG_VERSION}.tar.xz
 TERMUX_PKG_SHA256=733984395e0dbbe5c046abda2dc49a5544e7e0e1e2366bba849222ae9e3a03b1
-TERMUX_PKG_DEPENDS="fontconfig, freetype, fribidi, game-music-emu, harfbuzz, libaom, libandroid-glob, libandroid-stub, libass, libbluray, libbz2, libdav1d, libgnutls, libiconv, liblzma, libmp3lame, libopencore-amr, libopenmpt, libopus, librav1e, libsoxr, libsrt, libssh, libtheora, libv4l, libvidstab, libvmaf, libvo-amrwbenc, libvorbis, libvpx, libwebp, libx264, libx265, libxml2, libzimg, libzmq, littlecms, ocl-icd, rubberband, svt-av1, xvidcore, zlib"
+TERMUX_PKG_DEPENDS="fontconfig, freetype, fribidi, game-music-emu, harfbuzz, libaom, libandroid-glob, libandroid-stub, libass, libbluray, libbz2, libgnutls, libiconv, liblzma, libmp3lame, libopencore-amr, libopenmpt, libopus, librav1e, libsoxr, libsrt, libssh, libv4l, libvidstab, libvmaf, libvo-amrwbenc, libvorbis, libvpx, libwebp, libx264, libx265, libxml2, libzimg, libzmq, littlecms, ocl-icd, pulseaudio, svt-av1, xvidcore, zlib"
 TERMUX_PKG_BUILD_DEPENDS="opencl-headers"
 TERMUX_PKG_CONFLICTS="libav"
 TERMUX_PKG_BREAKS="ffmpeg-dev"
@@ -52,7 +52,7 @@ termux_step_configure() {
 		termux_error_exit "Unsupported arch: $TERMUX_ARCH"
 	fi
 
-	$TERMUX_PKG_SRCDIR/configure \
+	CFLAGS="$CFLAGS -Wno-incompatible-function-pointer-types" $TERMUX_PKG_SRCDIR/configure \
 		--arch="${_ARCH}" \
 		--as="$AS" \
 		--cc="$CC" \
@@ -66,54 +66,56 @@ termux_step_configure() {
 		--disable-indevs \
 		--disable-outdevs \
 		--enable-indev=lavfi \
-		--disable-static \
+		--enable-indev=v4l2 \
+		--enable-indev=pulse \
+		--enable-static \
 		--disable-symver \
 		--enable-cross-compile \
-		--enable-gnutls \
+		--disable-gnutls \
 		--enable-gpl \
 		--enable-version3 \
 		--enable-jni \
-		--enable-lcms2 \
-		--enable-libaom \
-		--enable-libass \
-		--enable-libbluray \
-		--enable-libdav1d \
-		--enable-libfontconfig \
-		--enable-libfreetype \
-		--enable-libfribidi \
-		--enable-libgme \
-		--enable-libharfbuzz \
-		--enable-libmp3lame \
-		--enable-libopencore-amrnb \
-		--enable-libopencore-amrwb \
-		--enable-libopenmpt \
-		--enable-libopus \
-		--enable-librav1e \
-		--enable-librubberband \
-		--enable-libsoxr \
-		--enable-libsrt \
-		--enable-libssh \
-		--enable-libsvtav1 \
-		--enable-libtheora \
-		--enable-libv4l2 \
-		--enable-libvidstab \
-		--enable-libvmaf \
-		--enable-libvo-amrwbenc \
-		--enable-libvorbis \
-		--enable-libvpx \
-		--enable-libwebp \
-		--enable-libx264 \
-		--enable-libx265 \
-		--enable-libxml2 \
-		--enable-libxvid \
-		--enable-libzimg \
-		--enable-libzmq \
+		--disable-lcms2 \
+		--disable-libaom \
+		--disable-libass \
+		--disable-libbluray \
+		--disable-libdav1d \
+		--disable-libfontconfig \
+		--disable-libfreetype \
+		--disable-libfribidi \
+		--disable-libgme \
+		--disable-libharfbuzz \
+		--disable-libmp3lame \
+		--disable-libopencore-amrnb \
+		--disable-libopencore-amrwb \
+		--disable-libopenmpt \
+		--disable-libopus \
+		--disable-librav1e \
+		--disable-librubberband \
+		--disable-libsoxr \
+		--disable-libsrt \
+		--disable-libssh \
+		--disable-libsvtav1 \
+		--disable-libtheora \
+		--disable-libv4l2 \
+		--disable-libvidstab \
+		--disable-libvmaf \
+		--disable-libvo-amrwbenc \
+		--disable-libvorbis \
+		--disable-libvpx \
+		--disable-libwebp \
+		--disable-libx264 \
+		--disable-libx265 \
+		--disable-libxml2 \
+		--disable-libxvid \
+		--disable-libzimg \
+		--disable-bzlib \
+		--disable-xlib \
 		--enable-mediacodec \
-		--enable-opencl \
+		--disable-opencl \
 		--enable-shared \
 		--prefix="$TERMUX_PREFIX" \
 		--target-os=android \
-		--extra-libs="-landroid-glob" \
 		--disable-vulkan \
 		$_EXTRA_CONFIGURE_FLAGS \
 		--disable-libfdk-aac

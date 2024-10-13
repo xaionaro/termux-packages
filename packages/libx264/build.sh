@@ -12,6 +12,7 @@ TERMUX_PKG_BREAKS="libx264-dev"
 TERMUX_PKG_REPLACES="libx264-dev"
 # Avoid linking against ffmpeg libraries to avoid circular dependency:
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
+--enable-static
 --disable-lavf
 --disable-swscale
 "

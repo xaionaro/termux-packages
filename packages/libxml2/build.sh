@@ -11,6 +11,7 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 --with-http
 --with-legacy
 --with-python
+--enable-static
 "
 TERMUX_PKG_RM_AFTER_INSTALL="share/gtk-doc"
 TERMUX_PKG_DEPENDS="libiconv, liblzma, zlib"

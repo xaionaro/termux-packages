@@ -10,7 +10,7 @@ TERMUX_PKG_DEPENDS="libchromaprint, dbus, ffmpeg, fluidsynth, fontconfig, freety
 TERMUX_PKG_BUILD_DEPENDS="xorgproto"
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
---disable-static
+--enable-static
 --disable-live555
 --disable-dc1394
 --disable-dv1394
@@ -19,6 +19,7 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 --disable-dsm
 --disable-v4l2
 --disable-decklink
+--disable-theora
 --disable-vnc
 --disable-freerdp
 --disable-asdcp
