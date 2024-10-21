@@ -15,6 +15,10 @@ termux_step_setup_toolchain() {
 				TERMUX_STANDALONE_TOOLCHAIN+="-v1"
 				termux_setup_toolchain_27b
 				;;
+			27c)
+				TERMUX_STANDALONE_TOOLCHAIN+="-v1"
+				termux_setup_toolchain_27c
+				;;
 			26d)
 				TERMUX_STANDALONE_TOOLCHAIN+="-v4"
 				termux_setup_toolchain_26d
