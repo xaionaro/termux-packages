@@ -87,7 +87,12 @@ termux_step_configure() {
 		--enable-libopencore-amrwb \
 		--enable-libopenmpt \
 		--enable-libopus \
+<<<<<<< HEAD
 		--disable-librav1e \
+=======
+		--enable-librav1e \
+		--enable-librubberband \
+>>>>>>> b00a24d817 (enhance(main/ffmpeg): enable librubberband (#22384))
 		--enable-libsoxr \
 		--enable-libsrt \
 		--enable-libssh \
