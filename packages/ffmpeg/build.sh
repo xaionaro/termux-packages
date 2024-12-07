@@ -111,6 +111,7 @@ termux_step_configure() {
 		--enable-mediacodec \
 		--enable-opencl \
 		--enable-shared \
+		--enable-protocol=rtsp \
 		--prefix="$TERMUX_PREFIX" \
 		--target-os=android \
 		--extra-libs="-landroid-glob" \
