@@ -90,23 +90,23 @@ termux_step_configure() {
 		--disable-libopencore-amrnb \
 		--disable-libopencore-amrwb \
 		--disable-libopenmpt \
-		--disable-libopus \
+		--enable-libopus \
 		--disable-librav1e \
 		--disable-librubberband \
 		--disable-libsoxr \
-		--disable-libsrt \
+		--enable-libsrt \
 		--disable-libssh \
 		--disable-libsvtav1 \
 		--disable-libtheora \
-		--disable-libv4l2 \
+		--enable-libv4l2 \
 		--disable-libvidstab \
 		--disable-libvmaf \
 		--disable-libvo-amrwbenc \
 		--disable-libvorbis \
 		--disable-libvpx \
 		--disable-libwebp \
-		--disable-libx264 \
-		--disable-libx265 \
+		--enable-libx264 \
+		--enable-libx265 \
 		--disable-libxml2 \
 		--disable-libxvid \
 		--disable-libzimg \
