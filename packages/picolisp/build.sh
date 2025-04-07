@@ -3,9 +3,10 @@ TERMUX_PKG_DESCRIPTION="Lisp interpreter and application server framework"
 TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_LICENSE_FILE="COPYING"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="24.9"
+TERMUX_PKG_VERSION="24.12"
+TERMUX_PKG_REVISION=1
 TERMUX_PKG_SRCURL=https://software-lab.de/picoLisp-${TERMUX_PKG_VERSION}.tgz
-TERMUX_PKG_SHA256=8e335099da0a1adc7673bf410a73865dd7dcd88beff73a02da8aee2f370957af
+TERMUX_PKG_SHA256=99fe187996e323ced5b9a6f3df789263fb0992abcb96dc0e06fa5ea81f4d3fd4
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_DEPENDS="libcrypt, libffi, openssl, readline"
 TERMUX_PKG_BUILD_IN_SRC=true
@@ -37,16 +38,17 @@ termux_step_make() {
 	$CC -O3 -w -D_OS="\"Android\"" -D_CPU="\"$TERMUX_ARCH\"" $CFLAGS -I$TERMUX_PREFIX/include -L$TERMUX_PREFIX/lib $LDFLAGS sysdefs.c -o ../bin/sysdefs-gen
 
 	$STRIP ../bin/balance
-	$STRIP ../bin/ssl
 	$STRIP ../bin/httpGate
+	$STRIP ../bin/ssl
 	$STRIP ../bin/sysdefs-gen
+	# psh, pty, vip, watchdog are not stripped as they are plaintext lisp files
 }
 
 termux_step_make_install() {
 	cd $TERMUX_PKG_SRCDIR/src
 
 	install -Dm755 -t $TERMUX_PREFIX/bin ../bin/{picolisp,pil}
-	install -Dm755 -t $TERMUX_PREFIX/lib/picolisp/bin ../bin/{balance,httpGate,psh,ssl,sysdefs-gen,vip,watchdog}
+	install -Dm755 -t $TERMUX_PREFIX/lib/picolisp/bin ../bin/{balance,httpGate,pty,psh,ssl,sysdefs-gen,vip,watchdog}
 	install -Dm644 -t $TERMUX_PREFIX/lib/picolisp ../{ext.l,lib.css,lib.l}
 	install -Dm644 -t $TERMUX_PREFIX/share/man/man1 ../man/man1/*.1
 

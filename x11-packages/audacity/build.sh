@@ -2,13 +2,13 @@ TERMUX_PKG_HOMEPAGE=https://www.audacityteam.org/
 TERMUX_PKG_DESCRIPTION="An easy-to-use, multi-track audio editor and recorder"
 TERMUX_PKG_LICENSE="GPL-2.0"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="3.7.0"
-_FFMPEG_VERSION=6.1.1
+TERMUX_PKG_VERSION="3.7.3"
+_FFMPEG_VERSION=7.1.1
 TERMUX_PKG_SRCURL=(https://github.com/audacity/audacity/archive/Audacity-${TERMUX_PKG_VERSION}.tar.gz
                    https://www.ffmpeg.org/releases/ffmpeg-${_FFMPEG_VERSION}.tar.xz)
 TERMUX_PKG_SHA256=(
-	c872dd5d3d59d3985a52d2aac9d430c3c736eed1b43f94ecee1f0868788eb769
-	8684f4b00f94b85461884c3719382f1261f0d9eb3d59640a1f4ac0873616f968
+	f5bfef1db18fab2c6a729da68f66779decc8cb0e2cc16111cd160b5e9f93577a
+	733984395e0dbbe5c046abda2dc49a5544e7e0e1e2366bba849222ae9e3a03b1
 )
 TERMUX_PKG_DEPENDS="gdk-pixbuf, glib, gtk3, libc++, libexpat, libflac, libid3tag, libogg, libopus, libsndfile, libsoundtouch, libsoxr, libuuid, libvorbis, libwavpack, mpg123, opusfile, portaudio, portmidi, wxwidgets"
 TERMUX_PKG_BUILD_DEPENDS="libjpeg-turbo, libjpeg-turbo-static, libmp3lame, libpng, rapidjson, zlib"
@@ -85,7 +85,7 @@ obtain_deb_url() {
 termux_step_host_build() {
 	termux_setup_cmake
 	termux_setup_ninja
-	
+
 	( # Running build in a subshell to avoid variable mess
 		# We must build the `image-compiler` for building.
 		# See https://github.com/audacity/audacity/blob/Audacity-3.6.4/BUILDING.md#selecting-target-architecture-on-macos

@@ -3,9 +3,9 @@ TERMUX_PKG_DESCRIPTION="Rust implementation of Git"
 TERMUX_PKG_LICENSE="Apache-2.0, MIT"
 TERMUX_PKG_LICENSE_FILE="LICENSE-APACHE, LICENSE-MIT"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="0.38.0"
+TERMUX_PKG_VERSION="0.41.0"
 TERMUX_PKG_SRCURL=https://github.com/Byron/gitoxide/archive/refs/tags/v${TERMUX_PKG_VERSION}.tar.gz
-TERMUX_PKG_SHA256=650a9ecae3953505db59983d10583bb8eb69ce820f794735c0fa8c519ca902b4
+TERMUX_PKG_SHA256=6c90676da83e4aa202ac08c6ce849d31031310953569d5fee7529437778b6273
 TERMUX_PKG_DEPENDS="resolv-conf"
 TERMUX_PKG_BUILD_IN_SRC=true
 TERMUX_PKG_AUTO_UPDATE=true
@@ -28,7 +28,8 @@ termux_step_pre_configure() {
 	done
 
 	if [ "$TERMUX_ARCH" == "x86_64" ]; then
-		RUSTFLAGS+=" -C link-arg=$($CC -print-libgcc-file-name)"
+		local env_host=$(printf $CARGO_TARGET_NAME | tr a-z A-Z | sed s/-/_/g)
+		export CARGO_TARGET_${env_host}_RUSTFLAGS+=" -C link-arg=$($CC -print-libgcc-file-name)"
 	fi
 }
 

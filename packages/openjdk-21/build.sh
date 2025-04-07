@@ -2,9 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://openjdk.java.net
 TERMUX_PKG_DESCRIPTION="Java development kit and runtime"
 TERMUX_PKG_LICENSE="GPL-2.0"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="21.0.5"
+TERMUX_PKG_VERSION="21.0.6"
 TERMUX_PKG_SRCURL=https://github.com/openjdk/jdk21u/archive/refs/tags/jdk-${TERMUX_PKG_VERSION}-ga.tar.gz
-TERMUX_PKG_SHA256=1dcf54fe0d4263a0fb95290a77dac9e4ff81761ed234daadfbab781f1779bf0b
+TERMUX_PKG_SHA256=9fec30f33b3a85c982cf8c1a6d99d296b2eef4e627e8586c3e42b9692983f5e9
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_DEPENDS="libandroid-shmem, libandroid-spawn, libiconv, libjpeg-turbo, zlib, littlecms"
 TERMUX_PKG_BUILD_DEPENDS="cups, fontconfig, libxrandr, libxt, xorgproto"
@@ -94,12 +94,12 @@ termux_step_configure() {
 		OBJDUMP="$OBJDUMP" \
 		STRIP="$STRIP" \
 		CXXFILT="llvm-cxxfilt" \
-		BUILD_CC="/usr/bin/clang-17" \
-		BUILD_CXX="/usr/bin/clang++-17" \
-		BUILD_NM="/usr/bin/llvm-nm-17" \
-		BUILD_AR="/usr/bin/llvm-ar-17" \
-		BUILD_OBJCOPY="/usr/bin/llvm-objcopy-17" \
-		BUILD_STRIP="/usr/bin/llvm-strip-17" \
+		BUILD_CC="/usr/bin/clang-18" \
+		BUILD_CXX="/usr/bin/clang++-18" \
+		BUILD_NM="/usr/bin/llvm-nm-18" \
+		BUILD_AR="/usr/bin/llvm-ar-18" \
+		BUILD_OBJCOPY="/usr/bin/llvm-objcopy-18" \
+		BUILD_STRIP="/usr/bin/llvm-strip-18" \
 		$TERMUX_PKG_MAKE_PROCESSES
 }
 

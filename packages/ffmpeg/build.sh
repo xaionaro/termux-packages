@@ -3,9 +3,9 @@ TERMUX_PKG_DESCRIPTION="Tools and libraries to manipulate a wide range of multim
 TERMUX_PKG_LICENSE="GPL-3.0"
 TERMUX_PKG_MAINTAINER="@termux"
 # Please align version with `ffplay` package.
-TERMUX_PKG_VERSION="6.1.2"
+TERMUX_PKG_VERSION="7.1.1"
 TERMUX_PKG_SRCURL=https://www.ffmpeg.org/releases/ffmpeg-${TERMUX_PKG_VERSION}.tar.xz
-TERMUX_PKG_SHA256=3b624649725ecdc565c903ca6643d41f33bd49239922e45c9b1442c63dca4e38
+TERMUX_PKG_SHA256=733984395e0dbbe5c046abda2dc49a5544e7e0e1e2366bba849222ae9e3a03b1
 TERMUX_PKG_DEPENDS="fontconfig, freetype, fribidi, game-music-emu, harfbuzz, libaom, libandroid-glob, libass, libbluray, libbz2, libgnutls, libiconv, liblzma, libmp3lame, libopencore-amr, libopenmpt, libopus, librav1e, libsoxr, libsrt, libssh, libv4l, libvidstab, libvmaf, libvo-amrwbenc, libvorbis, libvpx, libwebp, libx264, libx265, libxml2, libzimg, littlecms, ocl-icd, pulseaudio, svt-av1, xvidcore, zlib"
 TERMUX_PKG_BUILD_DEPENDS="opencl-headers"
 TERMUX_PKG_CONFLICTS="libav"
@@ -15,9 +15,9 @@ TERMUX_PKG_REPLACES="ffmpeg-dev"
 termux_step_pre_configure() {
 	# Do not forget to bump revision of reverse dependencies and rebuild them
 	# after SOVERSION is changed. (These variables are also used afterwards.)
-	_FFMPEG_SOVER_avutil=58
-	_FFMPEG_SOVER_avcodec=60
-	_FFMPEG_SOVER_avformat=60
+	_FFMPEG_SOVER_avutil=59
+	_FFMPEG_SOVER_avcodec=61
+	_FFMPEG_SOVER_avformat=61
 
 	local f
 	for f in util codec format; do
@@ -25,7 +25,7 @@ termux_step_pre_configure() {
 				libav${f}/version.h libav${f}/version_major.h \
 				| sed -En 's/^libav'"${f}"'_VERSION_MAJOR=([0-9]+)$/\1/p')
 		if [ ! "${v}" ] || [ "$(eval echo \$_FFMPEG_SOVER_av${f})" != "${v}" ]; then
-			termux_error_exit "SOVERSION guard check failed for libav${f}.so."
+			termux_error_exit "SOVERSION guard check failed for libav${f}.so. expected ${v}"
 		fi
 	done
 }
@@ -91,6 +91,7 @@ termux_step_configure() {
 		--disable-libopenmpt \
 		--enable-libopus \
 		--disable-librav1e \
+		--disable-librubberband \
 		--disable-libsoxr \
 		--enable-libsrt \
 		--disable-libssh \
@@ -134,4 +135,12 @@ termux_step_post_massage() {
 			ln -sf libav${f}.so libav${f}.so.${s}
 		fi
 	done
+}
+
+termux_step_create_debscripts() {
+	# See: https://github.com/termux/termux-packages/issues/23189#issuecomment-2663464359
+	# See also: https://github.com/termux/termux-packages/wiki/Termux-execution-environment#dynamic-library-linking-errors
+	sed -e "s|@TERMUX_PREFIX@|$TERMUX_PREFIX|g" \
+		"$TERMUX_PKG_BUILDER_DIR/postinst.sh.in" > ./postinst
+	chmod +x ./postinst
 }

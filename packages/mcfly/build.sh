@@ -2,9 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://github.com/cantino/mcfly
 TERMUX_PKG_DESCRIPTION="Replaces your default ctrl-r shell history search with an intelligent search engine"
 TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="0.9.2"
+TERMUX_PKG_VERSION="0.9.3"
 TERMUX_PKG_SRCURL=https://github.com/cantino/mcfly/archive/refs/tags/v${TERMUX_PKG_VERSION}.tar.gz
-TERMUX_PKG_SHA256=bfb6ca73c6a03047e3c61edf2b3c770e24ddbb0720e2a7dad3ea13a759572bb6
+TERMUX_PKG_SHA256=194383276095b71dd6d085fb959ba7981384cbe09776fd5f182e95bbed5a3a13
 TERMUX_PKG_BUILD_IN_SRC=true
 TERMUX_PKG_AUTO_UPDATE=true
 
@@ -13,7 +13,8 @@ termux_step_pre_configure() {
 		local libdir=target/x86_64-linux-android/release/deps
 		mkdir -p $libdir
 		pushd $libdir
-		RUSTFLAGS+=" -C link-arg=$($CC -print-libgcc-file-name)"
+		local env_host=$(printf $CARGO_TARGET_NAME | tr a-z A-Z | sed s/-/_/g)
+		export CARGO_TARGET_${env_host}_RUSTFLAGS+=" -C link-arg=$($CC -print-libgcc-file-name)"
 		echo "INPUT(-l:libunwind.a)" > libgcc.so
 		popd
 	fi

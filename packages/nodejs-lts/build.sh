@@ -2,9 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://nodejs.org/
 TERMUX_PKG_DESCRIPTION="Open Source, cross-platform JavaScript runtime environment"
 TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_MAINTAINER="Yaksh Bariya <thunder-coding@termux.dev>"
-TERMUX_PKG_VERSION=20.17.0
+TERMUX_PKG_VERSION=22.14.0
 TERMUX_PKG_SRCURL=https://nodejs.org/dist/v${TERMUX_PKG_VERSION}/node-v${TERMUX_PKG_VERSION}.tar.xz
-TERMUX_PKG_SHA256=9abf03ac23362c60387ebb633a516303637145cb3c177be3348b16880fd8b28c
+TERMUX_PKG_SHA256=c609946bf793b55c7954c26582760808d54c16185d79cb2fb88065e52de21914
 # Note that we do not use a shared libuv to avoid an issue with the Android
 # linker, which does not use symbols of linked shared libraries when resolving
 # symbols on dlopen(). See https://github.com/termux/termux-packages/issues/462.
@@ -27,13 +27,16 @@ termux_step_pre_configure() {
 }
 
 termux_step_host_build() {
-	local ICU_VERSION=75.1
+	local ICU_VERSION=76.1
 	local ICU_TAR=icu4c-${ICU_VERSION//./_}-src.tgz
 	local ICU_DOWNLOAD=https://github.com/unicode-org/icu/releases/download/release-${ICU_VERSION//./-}/$ICU_TAR
+	export CC=/usr/bin/clang-18
+	export CXX=/usr/bin/clang++-18
+	export LD=/usr/bin/clang++-18
 	termux_download \
 		$ICU_DOWNLOAD\
 		$TERMUX_PKG_CACHEDIR/$ICU_TAR \
-		cb968df3e4d2e87e8b11c49a5d01c787bd13b9545280fc6642f826527618caef
+		dfacb46bfe4747410472ce3e1144bf28a102feeaa4e3875bac9b4c6cf30f4f3e
 	tar xf $TERMUX_PKG_CACHEDIR/$ICU_TAR
 	cd icu/source
 	if [ "$TERMUX_ARCH_BITS" = 32 ]; then
@@ -64,9 +67,9 @@ termux_step_configure() {
 	fi
 
 	export GYP_DEFINES="host_os=linux"
-	export CC_host=gcc
-	export CXX_host=g++
-	export LINK_host=g++
+	export CC_host=/usr/bin/clang-18
+	export CXX_host=/usr/bin/clang++-18
+	export LINK_host=/usr/bin/clang++-18
 
 	# See note above TERMUX_PKG_DEPENDS why we do not use a shared libuv
 	# When building with ninja, build.ninja is geenrated for both Debug and Release builds.
@@ -92,6 +95,7 @@ termux_step_configure() {
 	sed -i \
 		-e "s|\-I$TERMUX_PREFIX/include|-I$TERMUX_PKG_HOSTBUILD_DIR/icu-installed/include|g" \
 		-e "s|\-L$TERMUX_PREFIX/lib|-L$TERMUX_PKG_HOSTBUILD_DIR/icu-installed/lib|g" \
+		-e "s|\-L$TERMUX_PREFIX/$TERMUX_PREFIX/lib||g" \
 		$(find $TERMUX_PKG_SRCDIR/out/{Release,Debug}/obj.host -name '*.ninja')
 
 }

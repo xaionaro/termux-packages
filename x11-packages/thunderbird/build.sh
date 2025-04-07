@@ -2,9 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://www.thunderbird.net
 TERMUX_PKG_DESCRIPTION="Unofficial Thunderbird email client"
 TERMUX_PKG_LICENSE="MPL-2.0"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="128.4.0"
+TERMUX_PKG_VERSION="128.8.0"
 TERMUX_PKG_SRCURL="https://archive.mozilla.org/pub/thunderbird/releases/${TERMUX_PKG_VERSION}esr/source/thunderbird-${TERMUX_PKG_VERSION}esr.source.tar.xz"
-TERMUX_PKG_SHA256=81f43a2680412a6afdb5fdf6b8296c92d0d6812892399b174723c4f753d5429f
+TERMUX_PKG_SHA256=dac8bb727e7fed445d3977093d51832a9d116de078f86cc07081abd8e42b6f43
 TERMUX_PKG_DEPENDS="ffmpeg, fontconfig, freetype, gdk-pixbuf, glib, gtk3, libandroid-shmem, libandroid-spawn, libc++, libcairo, libevent, libffi, libice, libicu, libjpeg-turbo, libnspr, libnss, libotr, libpixman, libsm, libvpx, libwebp, libx11, libxcb, libxcomposite, libxdamage, libxext, libxfixes, libxrandr, libxtst, pango, pulseaudio, zlib"
 TERMUX_PKG_BUILD_DEPENDS="binutils-cross, libcpufeatures, libice, libsm"
 TERMUX_PKG_BUILD_IN_SRC=true
@@ -66,9 +66,8 @@ termux_step_pre_configure() {
 
 	# Out of memory when building gkrust
 	if [ "$TERMUX_DEBUG_BUILD" = false ]; then
-		case "${TERMUX_ARCH}" in
-		aarch64|arm|i686|x86_64) RUSTFLAGS+=" -C debuginfo=1" ;;
-		esac
+		local env_host=$(printf $CARGO_TARGET_NAME | tr a-z A-Z | sed s/-/_/g)
+		export CARGO_TARGET_${env_host}_RUSTFLAGS+=" -C debuginfo=1"
 	fi
 
 	cargo install cbindgen
@@ -111,7 +110,17 @@ END
 }
 
 termux_step_make() {
-	./mach build
+	# XXX: Try max 10 times
+	for t in $(seq 1 10); do
+		if ./mach build --keep-going; then
+			break
+		else
+			if [ "$t" = "10" ]; then
+				termux_error_exit "Giving up after 10 attempts"
+			fi
+		fi
+	done
+
 	./mach buildsymbols
 }
 
@@ -127,7 +136,7 @@ termux_step_post_make_install() {
 	# Android 8.x and older not support "-z pack-relative-relocs" / DT_RELR
 	local r
 	r=$("${READELF}" -d "${TERMUX_PREFIX}/bin/thunderbird")
-	if grep -q "(RELR)" "${r}"; then
+	if [[ -n "$(echo "${r}" | grep "(RELR)")" ]]; then
 		termux_error_exit "DT_RELR is unsupported on Android 8.x and older\n${r}"
 	fi
 }

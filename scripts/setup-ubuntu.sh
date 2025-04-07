@@ -145,9 +145,13 @@ PACKAGES+=" composer"
 
 # Needed by package rust.
 PACKAGES+=" libssl-dev" # Needed to build Rust
-PACKAGES+=" llvm-17-dev"
-PACKAGES+=" llvm-17-tools"
-PACKAGES+=" clang-17"
+PACKAGES+=" llvm-18-dev"
+PACKAGES+=" llvm-18-tools"
+PACKAGES+=" clang-18"
+
+# Needed by librusty-v8
+PACKAGES+=" libclang-rt-17-dev"
+PACKAGES+=" libclang-rt-17-dev:i386"
 
 # Needed for package smalltalk.
 PACKAGES+=" libsigsegv-dev"
@@ -263,9 +267,6 @@ PACKAGES+=" libxft-dev"
 PACKAGES+=" libxt-dev"
 PACKAGES+=" xbitmaps"
 
-# Needed by proxmark3/proxmark3-git
-PACKAGES+=" gcc-arm-none-eabi"
-
 # Needed by pypy
 PACKAGES+=" qemu-user-static"
 
@@ -293,6 +294,10 @@ PACKAGES+=" libwebp7 libwebp7:i386 libwebp-dev"
 PACKAGES+=" libwebpdemux2 libwebpdemux2:i386"
 PACKAGES+=" libwebpmux3 libwebpmux3:i386"
 
+# Required by chromium-based packages
+PACKAGES+=" libfontconfig1"
+PACKAGES+=" libfontconfig1:i386"
+
 # Required by wine-stable
 PACKAGES+=" libfreetype-dev:i386"
 
@@ -308,6 +313,12 @@ PACKAGES+=" swig"
 # Needed by binutils-cross
 PACKAGES+=" libzstd-dev"
 
+# Needed by tree-sitter-c
+PACKAGES+=" tree-sitter-cli"
+
+# Needed by wlroots
+PACKAGES+=" glslang-tools"
+
 # Do not require sudo if already running as root.
 SUDO="sudo"
 if [ "$(id -u)" = "0" ]; then
@@ -321,11 +332,8 @@ $SUDO dpkg --add-architecture i386
 $SUDO cp $(dirname "$(realpath "$0")")/llvm-snapshot.gpg.key /etc/apt/trusted.gpg.d/apt.llvm.org.asc
 $SUDO chmod a+r /etc/apt/trusted.gpg.d/apt.llvm.org.asc
 {
-	echo "deb [arch=amd64] http://apt.llvm.org/noble/ llvm-toolchain-noble-17 main"
+	echo "deb [arch=amd64] http://apt.llvm.org/noble/ llvm-toolchain-noble-18 main"
 } | $SUDO tee /etc/apt/sources.list.d/apt-llvm-org.list > /dev/null
-
-# Add deadsnakes PPA to enable installing python 3.11:
-$SUDO add-apt-repository -y 'ppa:deadsnakes/ppa'
 
 $SUDO apt-get -yq update
 
@@ -338,7 +346,7 @@ echo -e 'LANG="en_US.UTF-8"\nLANGUAGE="en_US:en"\n' | $SUDO tee -a /etc/default/
 . $(dirname "$(realpath "$0")")/properties.sh
 $SUDO mkdir -p $TERMUX_PREFIX
 $SUDO chown -R $(whoami) /data
-$SUDO ln -sf /data/data/com.termux/files/usr/opt/bionic-host /system
+$SUDO ln -sf /data/data/com.termux/files/usr/opt/aosp /system
 
 # Install newer pkg-config then what ubuntu provides, as the stock
 # ubuntu version has performance problems with at least protobuf:

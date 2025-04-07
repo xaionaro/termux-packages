@@ -2,9 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://github.com/lu-zero/cargo-c
 TERMUX_PKG_DESCRIPTION="Cargo C-ABI helpers"
 TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="0.10.5"
+TERMUX_PKG_VERSION="0.10.11"
 TERMUX_PKG_SRCURL=https://github.com/lu-zero/cargo-c/archive/refs/tags/v${TERMUX_PKG_VERSION}.tar.gz
-TERMUX_PKG_SHA256=3f131a6a647851a617a87daaaf777a9e50817957be0af29806615613e98efc8a
+TERMUX_PKG_SHA256=8a6d6dc589d6d70bd7eb95971e3c608240e1f9c938dd5b54a049977333b59f05
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_UPDATE_VERSION_REGEXP='^\d+\.\d+(\.\d+)?$'
 TERMUX_PKG_DEPENDS="libcurl, libgit2, libssh2, openssl, zlib"
@@ -22,7 +22,6 @@ termux_pkg_auto_update() {
 termux_step_pre_configure() {
 	export LIBGIT2_SYS_USE_PKG_CONFIG=1
 	export LIBSSH2_SYS_USE_PKG_CONFIG=1
-	export PKG_CONFIG_ALLOW_CROSS=1
 
 	termux_setup_rust
 
@@ -48,8 +47,12 @@ termux_step_pre_configure() {
 		$_CARGO_TARGET_LIBDIR/libz.so
 
 	if [[ "${TERMUX_ARCH}" == "x86_64" ]]; then
-		RUSTFLAGS+=" -C link-arg=$($CC -print-libgcc-file-name)"
+		local env_host=$(printf $CARGO_TARGET_NAME | tr a-z A-Z | sed s/-/_/g)
+		export CARGO_TARGET_${env_host}_RUSTFLAGS+=" -C link-arg=$($CC -print-libgcc-file-name)"
 	fi
+
+	# clash with rust host build
+	unset CFLAGS
 }
 
 termux_step_post_make_install() {

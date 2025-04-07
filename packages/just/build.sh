@@ -2,11 +2,17 @@ TERMUX_PKG_HOMEPAGE=https://just.systems
 TERMUX_PKG_DESCRIPTION="A handy way to save and run project-specific commands"
 TERMUX_PKG_LICENSE="CC0-1.0"
 TERMUX_PKG_MAINTAINER="@flipee"
-TERMUX_PKG_VERSION="1.36.0"
+TERMUX_PKG_VERSION="1.40.0"
 TERMUX_PKG_SRCURL=https://github.com/casey/just/archive/${TERMUX_PKG_VERSION}.tar.gz
-TERMUX_PKG_SHA256=bc2e2ff0268c2818659c524b21663564864b50ba102afb0a44fe73c08cf35ff0
+TERMUX_PKG_SHA256=e0d48dcc7a086c5746b7f281a40e615c290cddf9c06134198c703dff2f62c1c4
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_BUILD_IN_SRC=true
+
+termux_step_post_configure() {
+	# clash with rust host build
+	# causes 32bit builds to fail if set
+	unset CFLAGS
+}
 
 termux_step_post_make_install() {
 	mkdir -p "${TERMUX_PREFIX}/share/man/man1"

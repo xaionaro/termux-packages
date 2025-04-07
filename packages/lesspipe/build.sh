@@ -1,11 +1,10 @@
 TERMUX_PKG_HOMEPAGE=http://www-zeuthen.desy.de/~friebel/unix/lesspipe.html
 TERMUX_PKG_DESCRIPTION="An input filter for the pager less"
 TERMUX_PKG_LICENSE="GPL-2.0"
-TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="2.15"
-TERMUX_PKG_REVISION=1
+TERMUX_PKG_MAINTAINER="Joshua Kahn @TomJo2000"
+TERMUX_PKG_VERSION="2.18"
 TERMUX_PKG_SRCURL=https://github.com/wofr06/lesspipe/archive/refs/tags/v${TERMUX_PKG_VERSION}.tar.gz
-TERMUX_PKG_SHA256=dd65d211f0f817b4c361c434fd09ecbcd4a642636f3dc0fc1c575f2fa88506ac
+TERMUX_PKG_SHA256=a78c5c2841771adb5cdc7eb918ca8e4865be88cb9f7a53622ca3fa064d5ec5bc
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_DEPENDS="less"
 TERMUX_PKG_BUILD_DEPENDS="bash-completion"
@@ -15,7 +14,8 @@ TERMUX_PKG_BUILD_IN_SRC=true
 
 termux_step_configure() {
 	./configure \
-		--prefix="$TERMUX_PREFIX"
+		--prefix="$TERMUX_PREFIX" \
+		--all-completions
 }
 
 termux_step_post_make_install() {

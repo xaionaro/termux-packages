@@ -2,9 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://github.com/5rahim/seanime
 TERMUX_PKG_DESCRIPTION="Self-hosted anime and manga server for sea rovers."
 TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="2.2.3"
+TERMUX_PKG_VERSION="2.7.5"
 TERMUX_PKG_SRCURL=https://github.com/5rahim/seanime/archive/refs/tags/v${TERMUX_PKG_VERSION}.tar.gz
-TERMUX_PKG_SHA256=8234f1f97ec4abc04e4b042c6a71e0ec75b64387ae039727b8a6e9a750f6c92b
+TERMUX_PKG_SHA256=9f7143243e3a7b07a90eebf250467f0acbb1e4c24e0430b1bd7fbfa86213417a
 TERMUX_PKG_BUILD_IN_SRC=true
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_HOSTBUILD=true
@@ -25,7 +25,8 @@ termux_step_pre_configure() {
 }
 
 termux_step_make() {
-	go build -o seanime -trimpath -ldflags="-s -w"
+	# -checklinkname=0 for https://github.com/wlynxg/anet?tab=readme-ov-file#how-to-build-with-go-1230-or-later
+	go build -o seanime -trimpath -ldflags="-checklinkname=0 -s -w"
 }
 
 termux_step_make_install() {
