@@ -9,7 +9,7 @@ TERMUX_PKG_SHA256=cbb7fe8a6307f5ce533a05cded70bb93c3ba06395ab9b6d007eb53b75d805f
 TERMUX_PKG_DEPENDS="argp, libc++, libv4l"
 TERMUX_PKG_BUILD_DEPENDS="libandroid-glob"
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
---disable-static
+--enable-static
 --disable-libdvbv5
 --disable-qv4l2
 --disable-qvidcap
