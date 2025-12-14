@@ -1,3 +1,35 @@
+diff --git a/src/pulse/meson.build b/src/pulse/meson.build
+index 6c7fd2260..d2b598f1d 100644
+--- a/src/pulse/meson.build
++++ b/src/pulse/meson.build
+@@ -80,7 +80,7 @@ if host_machine.system() != 'windows' and host_machine.system() != 'darwin'
+ else
+  versioning_link_args = []
+ endif
+ 
+-libpulse = shared_library('pulse',
++libpulse = library('pulse',
+  libpulse_sources,
+  libpulse_headers,
+  version : libpulse_version,
+@@ -101,7 +101,7 @@ install_headers(
+  libpulse_headers, 'simple.h',
+  subdir : 'pulse'
+ )
+ 
+-libpulse_simple = shared_library('pulse-simple',
++libpulse_simple = library('pulse-simple',
+  'simple.c',
+  'simple.h',
+  version : libpulse_simple_version,
+@@ -116,7 +116,7 @@ libpulse_simple_dep = declare_dependency(link_with: libpulse_simple)
+ 
+ if glib_dep.found()
+-  libpulse_mainloop_glib = shared_library('pulse-mainloop-glib',
++  libpulse_mainloop_glib = library('pulse-mainloop-glib',
+    'glib-mainloop.c',
+    'glib-mainloop.h',
+    version : libpulse_mainloop_glib_version,
 diff --git a/meson.build b/meson.build
 index c5135330f..0f0c3d5ed 100644
 --- a/meson.build
@@ -78,3 +110,5 @@ index dceca55c7..04993ea1c 100644
      ]
    endif
  
+
+
