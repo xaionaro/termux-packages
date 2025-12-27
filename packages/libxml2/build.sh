@@ -11,10 +11,9 @@ TERMUX_PKG_SETUP_PYTHON=true
 #	-Dthread-alloc=enabled
 #	-Dtls=enabled
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
-	-Ddocs=enabled
-	-Dhttp=enabled
-	-Dicu=enabled
-	-Dlegacy=enabled
+--with-legacy
+--with-python
+--enable-static
 "
 # Python bindings
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS+="

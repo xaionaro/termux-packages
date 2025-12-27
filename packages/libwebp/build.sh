@@ -15,14 +15,17 @@ TERMUX_PKG_REPLACES="libwebp-dev"
 TERMUX_PKG_FORCE_CMAKE=true
 # "vwebp" is an X11 program and triggers a dependency on GLUT, which is in x11-packages
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
--DBUILD_SHARED_LIBS=ON
--DWEBP_BUILD_VWEBP=OFF
--DWEBP_BUILD_CWEBP=ON
--DWEBP_BUILD_DWEBP=ON
--DWEBP_BUILD_GIF2WEBP=ON
--DWEBP_BUILD_IMG2WEBP=ON
--DWEBP_BUILD_EXTRAS=ON
--DWEBP_ENABLE_SWAP_16BIT_CSP=ON
+--enable-static
+--enable-libwebpmux
+--enable-libwebpdemux
+--enable-libwebpdecoder
+--enable-libwebpextras
+--enable-swap-16bit-csp
+--enable-gif
+--enable-jpeg
+--enable-png
+--enable-tiff
+--disable-wic
 "
 
 termux_step_post_get_source() {

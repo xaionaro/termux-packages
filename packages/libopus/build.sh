@@ -8,4 +8,4 @@ TERMUX_PKG_SRCURL=https://downloads.xiph.org/releases/opus/opus-${TERMUX_PKG_VER
 TERMUX_PKG_SHA256=65c1d2f78b9f2fb20082c38cbe47c951ad5839345876e46941612ee87f9a7ce1
 TERMUX_PKG_BREAKS="libopus-dev"
 TERMUX_PKG_REPLACES="libopus-dev"
-TERMUX_PKG_EXTRA_CONFIGURE_ARGS="--disable-extra-programs"
+TERMUX_PKG_EXTRA_CONFIGURE_ARGS="--disable-extra-programs --enable-static"
